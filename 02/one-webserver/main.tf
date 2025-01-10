@@ -5,7 +5,7 @@ provider "aws" {
 
 # SG 생성 - 8080
 resource "aws_security_group" "allow_8080" {
-  name        = "allow_8080"
+  name        = var.security_group_name
   description = "Allow 8080 inbound traffic and all outbound traffic"
 
   tags = {
@@ -17,9 +17,9 @@ resource "aws_security_group" "allow_8080" {
 resource "aws_vpc_security_group_ingress_rule" "allow_http_8080" {
   security_group_id = aws_security_group.allow_8080.id
   cidr_ipv4         = "0.0.0.0/0"
-  from_port         = 8080
+  from_port         = var.server_port
   ip_protocol       = "tcp"
-  to_port           = 8080
+  to_port           = var.server_port
 }
 
 # SG egress rule
@@ -37,7 +37,7 @@ resource "aws_instance" "web" {
   vpc_security_group_ids = [aws_security_group.allow_8080.id]
 
   user_data_replace_on_change = true
-  user_data = <<EOF
+  user_data = <<-EOF
   #!/bin/bash
   echo "hello world" > index.html
   nohup busybox httpd -f -p 8080 &
