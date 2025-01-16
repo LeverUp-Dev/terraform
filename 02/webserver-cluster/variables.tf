@@ -1,25 +1,20 @@
 variable "region" {
-  default = "us-east-2"
-  description = "Default Region"
-  type = string
+  default     = "us-east-2"
+  description = "Default region for AWS"
+  type        = string
 }
-
 variable "web_port" {
-  default = 80
-  type = number
+  default     = 80
+  description = "Port for web"
+  type        = number
 }
-
-variable "amazon" {
-  default = "137112412989"
-  type = string
-}
-
-variable "min_instance" {
-  default = 2
-  type = number
-}
-
-variable "max_instance" {
-  default = 10
-  type = number
+variable "instance_size" {
+  default = {
+    min = 2
+    max = 10
+  }
+  type = object({
+    min = number
+    max = number
+  })
 }

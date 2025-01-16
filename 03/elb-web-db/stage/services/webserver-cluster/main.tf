@@ -190,10 +190,66 @@ resource "aws_autoscaling_group" "myasg" {
 }
 
 # 2.2 ALB + TG
-# - SG
-# - TG
-# - ALB
-#   - LB
-#   - Listener
-#   - Listener Rule
-#   - Target Group
+# 2.2.1 SG
+# * ingress: 80/tcp
+# * egress: all traffic
+# Resource: aws_security_group
+# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group
+resource "aws_security_group" "myasg_80" {
+  name        = "myasg_80"
+  description = "Allow 80 inbound traffic and all outbound traffic"
+  vpc_id      = data.aws_vpc.default.id
+
+  tags = {
+    Name = "myasg_80"
+  }
+}
+
+resource "aws_vpc_security_group_ingress_rule" "allow_80" {
+  security_group_id = aws_security_group.myasg_80.id
+  cidr_ipv4         = "0.0.0.0/0"
+  from_port         = 80
+  ip_protocol       = "tcp"
+  to_port           = 80
+}
+
+resource "aws_vpc_security_group_egress_rule" "allow_myalb_all" {
+  security_group_id = aws_security_group.myasg_80.id
+  cidr_ipv4         = "0.0.0.0/0"
+  ip_protocol       = "-1" 
+}
+
+# 2.2.2 TG => 이미 구성됨
+
+# 2.2.3 ALB
+# 2.2.3.1 LB
+# Resource: aws_lb
+# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb
+resource "aws_lb" "myalb" {
+  name               = "myalb"
+  internal           = false
+
+  load_balancer_type = "application"
+  security_groups    = [aws_security_group.myasg_80.id]
+  subnets            = data.aws_subnets.default.ids
+
+  tags = {
+    Environment = "myalb"
+  }
+}
+
+# 2.2.3.2 Listener
+# Resource: aws_lb_listener
+# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener
+resource "aws_lb_listener" "myalb_listener" {
+  load_balancer_arn = aws_lb.myalb.arn
+  port              = "80"
+  protocol          = "HTTP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.myalb-tg.arn
+  }
+}
+
+# 2.2.3.3 Listener Rule => aws_lb_listener.myalb_listener.default_action 대체

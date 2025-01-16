@@ -1,4 +1,4 @@
 output "myalb_dns_name" {
-  value = aws_lb.mylb.dns_name
-  description = "WEB DNS name"
+  value = "http://${aws_lb.myALB.dns_name}/index.html"
+  description = "WEB DNS name of load balancer"
 }
