@@ -2,6 +2,7 @@
 terraform code example
 
 # Project Tree
+```
 .
 ├── 02
 │   ├── README.md
@@ -134,3 +135,4 @@ terraform code example
     └── variables.tf
 
 33 directories, 96 files
+```
