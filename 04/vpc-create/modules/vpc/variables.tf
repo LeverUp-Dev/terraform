@@ -41,3 +41,11 @@ variable "routetable_tag" {
   description = "public routing table tag"
   type = map(string)
 }
+
+variable "mysg_tag" {
+  default = {
+    Name = "mysg"
+  }
+  description = "sg tag"
+  type = map(string)
+}

@@ -20,7 +20,7 @@ resource "aws_internet_gateway" "myigw" {
 resource "aws_subnet" "mysubnet" {
   vpc_id     = aws_vpc.myvpc.id
   cidr_block = var.vpc_subnet
-
+  availability_zone = "ap-northeast-2a"
   tags = var.subnet_tag
 }
 
@@ -44,5 +44,33 @@ resource "aws_route_table_association" "a" {
   route_table_id = aws_route_table.mypubtable.id
 }
 
-# EC2 생성
+# sg
+resource "aws_security_group" "mysg" {
+  name        = "allow_web"
+  description = "Allow HTTP/HTTPS inbound traffic and all outbound traffic"
+  vpc_id      = aws_vpc.myvpc.id
 
+  tags = var.mysg_tag
+}
+
+resource "aws_vpc_security_group_ingress_rule" "allow_http" {
+  security_group_id = aws_security_group.mysg.id
+  cidr_ipv4         = aws_vpc.myvpc.cidr_block
+  from_port         = 80
+  ip_protocol       = "tcp"
+  to_port           = 80
+}
+
+resource "aws_vpc_security_group_ingress_rule" "allow_https" {
+  security_group_id = aws_security_group.mysg.id
+  cidr_ipv4         = aws_vpc.myvpc.cidr_block
+  from_port         = 443
+  ip_protocol       = "tcp"
+  to_port           = 443
+}
+
+resource "aws_vpc_security_group_egress_rule" "allow_all_traffic" {
+  security_group_id = aws_security_group.mysg.id
+  cidr_ipv4         = "0.0.0.0/0"
+  ip_protocol       = "-1"
+}

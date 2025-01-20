@@ -7,3 +7,7 @@ output "mysubnet_id" {
   value = aws_subnet.mysubnet.id
   description = "subnet id"
 }
+
+output "sg_id" {
+  value = aws_security_group.mysg.id
+}

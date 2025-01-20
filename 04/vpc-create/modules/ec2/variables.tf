@@ -1,5 +1,5 @@
 variable "indstance_type" {
-  default = "t3.micro"
+  default = "t2.micro"
   description = "Instance Type"
   type = string
 }
@@ -14,5 +14,15 @@ variable "ec2_tag" {
 
 variable "subnet_id" {
   description = "subnet id"
+  type = string
+}
+
+variable "sg_ids" {
+  description = "Security group IDs(list)"
+  type = list
+}
+
+variable "keypair" {
+  description = "EC2 Key Pair"
   type = string
 }
