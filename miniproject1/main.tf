@@ -7,7 +7,7 @@
 # 기본 인프라 구성
 ################################
 # 1. VPC 설정
-resource "aws_vpc" "my" {
+resource "aws_vpc" "my-vpc" {
   cidr_block           = "10.123.0.0/16"
   enable_dns_hostnames = true
   tags = {
@@ -15,7 +15,7 @@ resource "aws_vpc" "my" {
   }
 }
 # 2. Internet Gateway 설정
-resource "aws_internet_gateway" "my" {
+resource "aws_internet_gateway" "my-igw" {
   vpc_id = aws_vpc.my.id
   tags = {
     Name = "my-igw"

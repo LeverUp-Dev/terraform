@@ -116,6 +116,55 @@ terraform code example
 │           ├── terraform.tfstate.backup
 │           ├── terraform.tfvars
 │           └── variables.tf
+├── 04
+│   ├── module-create
+│   │   └── learn-terraform-modules-create
+│   │       ├── LICENSE
+│   │       ├── README.md
+│   │       ├── main.tf
+│   │       ├── modules
+│   │       │   └── aws-s3-static-website-bucket
+│   │       │       ├── LICENSE
+│   │       │       ├── README.md
+│   │       │       ├── main.tf
+│   │       │       ├── outputs.tf
+│   │       │       ├── variables.tf
+│   │       │       └── www
+│   │       │           ├── error.html
+│   │       │           └── index.html
+│   │       ├── outputs.tf
+│   │       ├── terraform.tf
+│   │       ├── terraform.tfstate
+│   │       ├── terraform.tfstate.backup
+│   │       └── variables.tf
+│   ├── module-overview
+│   │   └── learn-terraform-modules-use
+│   │       ├── LICENSE
+│   │       ├── README.md
+│   │       ├── main.tf
+│   │       ├── outputs.tf
+│   │       ├── terraform.tf
+│   │       ├── terraform.tfstate
+│   │       ├── terraform.tfstate.backup
+│   │       └── variables.tf
+│   └── vpc-create
+│       ├── dev
+│       │   ├── main.tf
+│       │   ├── provider.tf
+│       │   ├── terraform.tfstate
+│       │   ├── terraform.tfstate.backup
+│       │   └── variables.tf
+│       ├── modules
+│       │   ├── ec2
+│       │   │   ├── main.tf
+│       │   │   ├── outputs.tf
+│       │   │   └── variables.tf
+│       │   └── vpc
+│       │       ├── main.tf
+│       │       ├── outputs.tf
+│       │       └── variables.tf
+│       ├── prod
+│       └── terraform.tfstate
 ├── README.md
 ├── covertf
 │   ├── README.md
@@ -134,5 +183,5 @@ terraform code example
     ├── userdata.tpl
     └── variables.tf
 
-33 directories, 96 files
+47 directories, 131 files
 ```
